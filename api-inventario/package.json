@@ -1,0 +1,22 @@
+{
+  "name": "api-impuesto",
+  "version": "1.0.0",
+  "description": "aplicacion para generar impuestos de industria y comercio para el municipio de San Diego Cesar",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "3x2 Software",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "fluentreports": "^1.1.7",
+    "jwt-simple": "^0.5.1",
+    "moment": "^2.21.0",
+    "morgan": "^1.9.0",
+    "mysql": "^2.15.0",
+    "nodemon": "^1.15.1"
+  }
+}
