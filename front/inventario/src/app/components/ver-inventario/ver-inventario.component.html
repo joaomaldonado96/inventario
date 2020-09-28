@@ -1,0 +1,20 @@
+<h2>Inventario de productos en bodega</h2>
+<hr>
+<div id="accordion">
+    <div class="card" *ngFor="let producto of bodega; index as i">
+        <div class="card-header" style="background-color: #0c5460;">
+            <a class="btn btn-block" data-toggle="collapse" href="#collapse{{i}}" style="color: white; text-align: left;">
+            {{producto.referencia}} <span class="badge badge-light">{{producto.tamano}}  </span> 
+        </a>
+        </div>
+        <div id="collapse{{i}}" class="collapse" data-parent="#accordion">
+            <div class="card-body">
+                <p class="card-text">Unidades disponibles : <strong style="color: green;">{{producto.unidades_Disponible}}</strong>
+                    <br> Unidades no disponibles : <strong style="color: #8e0000">{{producto.unidades_NoDisponible}} </strong>
+                    <br> Unidades dañadas : <strong style="color: #8e0000">{{producto.danadas}}</strong>
+                    <br> Precio unitario : <strong> $ {{producto.precioUnit | number}}  </strong>
+
+            </div>
+        </div>
+    </div>
+</div>
