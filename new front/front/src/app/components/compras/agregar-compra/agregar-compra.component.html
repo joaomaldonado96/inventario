@@ -1,0 +1,215 @@
+<div class="row" style="margin: 30px 0px;">
+  <div class="col-6">
+    <h1>Formulario de compra</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card compraCard">
+      <div class="card-body">
+        <div class="row" style="margin: 5px 0px;">
+          <div class="col-6">
+            <mat-form-field class="inputWidth">
+              <mat-label> Bodega destino</mat-label>
+              <mat-select [(ngModel)]="compra.bodega">
+                <mat-option *ngFor="let bodega of bodegas" value="{{bodega._id}}" (click)="seleccionarBodega(bodega)">
+                  {{bodega.nombre | titlecase}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field class="inputWidth">
+              <mat-label> Proveedor</mat-label>
+              <mat-select [(ngModel)]="compra.proveedor">
+                <mat-option *ngFor="let proveedor of proveedores" value="{{proveedor._id}}">
+                  {{proveedor.nombre | titlecase}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row" style="margin: 5px 0px;">
+          <div class="col-6">
+            <label for="text">Costos de envio:</label>
+          </div>
+          <div class="col-6">
+            <input type="number" class="form-control" placeholder="Pagos al transportista" [(ngModel)]="compra.costoEnvio"  (keyup)="sumaTotal()">
+          </div>
+        </div>
+        <div class="row" style="margin: 5px 0px;">
+          <div class="col-6">
+            <label for="text">Descuentos:</label>
+          </div>
+          <div class="col-6">
+            <input type="number" class="form-control" placeholder="Cantidad para restar a la compra" [(ngModel)]="compra.descuento"  (keyup)="sumaTotal()">
+          </div>
+        </div>
+        <div class="row" style="margin: 5px 0px;">
+          <div class="col-6">
+            <label for="text">Impuestos:</label>
+          </div>
+          <div class="col-6">
+            <input type="number" class="form-control" placeholder="Iva + Retencion + otros" [(ngModel)]="compra.impuestos"  (keyup)="sumaTotal()">
+          </div>
+        </div>
+        <div class="row" style="margin: 5px 0px;">
+          <div class="col-6">
+            <label for="text">Fecha de compra:</label>
+          </div>
+          <div class="col-6 ">
+            <input required readonly class="form-control cursor" placeholder="Fecha en la que se hizo la compra"
+              [matDatepicker]="fechaInicio" (click)="fechaInicio.open()" [(ngModel)]="compra.fechaCompra">
+            <!-- <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle> -->
+            <mat-datepicker touchUi #fechaInicio></mat-datepicker>
+          </div>
+        </div>
+        <div class="row" style="margin: 5px 0px;">
+          <div class="col-6">
+            <label for="text">Fecha de entrega:</label>
+          </div>
+          <div class="col-6 ">
+            <input required readonly class="form-control cursor" placeholder="Fecha en la que se estima la entrega"
+              [matDatepicker]="fechaEntrega" (click)="fechaEntrega.open()" [(ngModel)]="compra.fechaEntrega">
+            <!-- <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle> -->
+            <mat-datepicker touchUi #fechaEntrega></mat-datepicker>
+          </div>
+        </div>
+        <div class="row" style="margin: 30px 0px;">
+          <div class="col-6">
+            <button type="button" class="btn btn-outline-success" (click)="agregarProducto()"  >Agregar producto</button>
+          </div>
+        </div>
+        <div class="row" style="margin: 0px 0px;">
+          <div class="col-6" *ngIf="productoParaAgregar">
+            <mat-form-field class="inputWidth">
+              <mat-label> Producto</mat-label>
+              <mat-select [(ngModel)]="productoParaAgregar._id">
+                <mat-option *ngFor="let producto of productos" value="{{producto._id}}"
+                (click)="seleccionarProducto(producto)" data-toggle="modal" data-target="#myModal">
+                  {{producto.referencia | titlecase}} ( {{producto.tamano}} )
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row" *ngIf="compra.productos && compra.productos.length > 0">
+          <div class="col-12">
+            <table class="table table-hover" style="font-size: 17px;">
+              <thead>
+                <tr>
+                  <th>Refencia</th>
+                  <th>Tamaño</th>
+                  <th>Precio unitario</th>
+                  <th>Cantidad pedida</th>
+                  <th>Unidades dañadas</th>
+                  <th>Unidades no entregadas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let producto of compra.productos" style="background-color: #d4f1c9;">
+                  <td>{{producto.referencia}}</td>
+                  <td>{{producto.tamano}}</td>
+                  <td>{{producto.precioUnitario}}</td>
+                  <td>{{producto.cantidadPedida}}</td>
+                  <td>{{producto.unidadesMal}}</td>
+                  <td>{{producto.unidadesNoEntrega}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row justify-content-end" style="margin: 5px 0px;">
+          <div class="col-3">
+            <label for="text">Total sin impuestos:</label>
+          </div>
+          <div class="col-3">
+            <input disabled type="text" class="form-control" placeholder="Suma parcial sin impuestos"
+              style="background-color: #f0f1c9;" [(ngModel)]="subtotal">
+          </div>
+        </div>
+        <div class="row justify-content-end" style="margin: 5px 0px; ">
+          <div class="col-3">
+            <label for="text">Pago total:</label>
+          </div>
+          <div class="col-3">
+            <input disabled type="text" class="form-control" placeholder="Suma total de compra"
+              style="background-color: #d4f1c9;" [(ngModel)]="total">
+          </div>
+        </div>
+        <div class="row justify-content-end" style="margin: 30px 0px;" >
+          <div class="col-3">
+            <button style="width: 100%; font-size: 18px;" type="button" class="btn btn-success" (click)="guardarCompra()"> Guardar compra</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Modal-->
+
+<div id="myModal" class="modal fade" role="dialog" *ngIf="productoParaAgregar">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Datos del producto</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row" style="margin: 5px 0px;">
+          <div class="col-6">
+            <label for="text">Referencia:</label>
+          </div>
+          <div class="col-6">
+            <input disabled type="text" class="form-control" placeholder="Referencia" [(ngModel)]="productoParaAgregar.referencia">
+          </div>
+        </div>
+        <div class="row" style="margin: 5px 0px;">
+          <div class="col-6">
+            <label for="text">Tamaño:</label>
+          </div>
+          <div class="col-6">
+            <input disabled type="text" class="form-control" placeholder="Tamaño" [(ngModel)]="productoParaAgregar.tamano">
+          </div>
+        </div>
+        <div class="row" style="margin: 5px 0px;">
+          <div class="col-6">
+            <label for="text">Precio unitario:</label>
+          </div>
+          <div class="col-6">
+            <input disabled type="number" class="form-control" placeholder="Precio unitario" [(ngModel)]="productoParaAgregar.precioUnitario">
+          </div>
+        </div>
+        <div class="row" style="margin: 5px 0px;">
+          <div class="col-6">
+            <label for="text">Cantidad pedida:</label>
+          </div>
+          <div class="col-6">
+            <input type="number" class="form-control" placeholder="Cantidad" [(ngModel)]="productoParaAgregar.cantidadPedida">
+          </div>
+        </div>
+        <div class="row" style="margin: 5px 0px;">
+          <div class="col-6">
+            <label for="text">Unidades dañadas:</label>
+          </div>
+          <div class="col-6">
+            <input type="number" class="form-control" placeholder="Cantidad" [(ngModel)]="productoParaAgregar.unidadesMal">
+          </div>
+        </div>
+        <div class="row" style="margin: 5px 0px;">
+          <div class="col-6">
+            <label for="text">Unidades no entregadas:</label>
+          </div>
+          <div class="col-6">
+            <input type="number" class="form-control" placeholder="Cantidad" [(ngModel)]="productoParaAgregar.unidadesNoEntrega">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="guardarProducto()">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<div class="row" style="margin: 30px 0px;">
+  <div class="col-12">
+    <input type="text" class="form-control" placeholder="Buscar por referencia" [formControl]="productoSeleccionado">
+  </div>
+</div>
+<div class="row" style="margin: 30px 0px;">
+  <div class="col-6">
+    <h1>Catalogo de productos</h1>
+  </div>
+  <div class="col-6" style="text-align: right; padding-top: 10px;">
+    <button type="button" class="btn btn-outline-success" (click)="guardarProducto()">Agregar producto</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Refencia</th>
+          <th>Tamaño</th>
+          <th>Porcentaje de alcohol</th>
+          <th>Precio Unitario</th>
+          <th>Precio de venta</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of productosFiltrados">
+          <td>{{producto.referencia}}</td>
+          <td>{{producto.tamano}}</td>
+          <td>{{producto.grados}} en vol</td>
+          <td>{{producto.precioUnitario}}</td>
+          <td>{{producto.precioDeventa}}</td>
+          <td><button type="button" class="btn btn-outline-danger">Eliminar producto</button></td>
+          <td><button type="button" class="btn btn-outline-info" (click)="actualizarProducto(producto)">Editar
+              producto</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<hr>
+<app-editar-producto *ngIf="editar" [producto]="producto" (actualizado)="productoAcualizado()"
+  (guardado)="productoGuardado()"></app-editar-producto>

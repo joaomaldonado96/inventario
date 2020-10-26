@@ -1,0 +1,49 @@
+<div class="row" style="margin-bottom: 30px;">
+  <div class="col-12">
+    <div class="row" style="margin: 5px 0px;">
+      <div class="col-6">
+        <label for="text">Referencia:</label>
+      </div>
+      <div class="col-6">
+        <input type="text" class="form-control" placeholder="referencia" [(ngModel)]="producto.referencia">
+      </div>
+    </div>
+    <div class="row" style="margin: 5px 0px;">
+      <div class="col-6">
+        <label for="text">Tamaño:</label>
+      </div>
+      <div class="col-6">
+        <input type="text" class="form-control" placeholder="Tamaño" [(ngModel)]="producto.tamano">
+      </div>
+    </div>
+    <div class="row" style="margin: 5px 0px;">
+      <div class="col-6">
+        <label for="text">Porcentaje de alcohol:</label>
+      </div>
+      <div class="col-6">
+        <input type="text" class="form-control" placeholder="Porcentaje de alcohol" [(ngModel)]="producto.grados">
+      </div>
+    </div>
+    <div class="row" style="margin: 5px 0px;">
+      <div class="col-6">
+        <label for="text">Precio Unitario:</label>
+      </div>
+      <div class="col-6">
+        <input type="text" class="form-control" placeholder="Precio Unitario" [(ngModel)]="producto.precioUnitario">
+      </div>
+    </div>
+    <div class="row" style="margin: 5px 0px;">
+      <div class="col-6">
+        <label for="text">Precio de venta:</label>
+      </div>
+      <div class="col-6">
+        <input type="text" class="form-control" placeholder="Precio de venta" [(ngModel)]="producto.precioDeventa">
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <button type="button" class="btn btn-success" (click)="guardarProducto()">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>

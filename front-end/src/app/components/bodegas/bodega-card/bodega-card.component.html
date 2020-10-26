@@ -1,0 +1,8 @@
+<div class="card" style="width: 18rem; border: 2px solid #343a406c; margin: 10px 0px;">
+  <div class="card-body">
+    <h5 class="card-title">{{bodega.nombre}}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{bodega.direccion | titlecase}}, {{bodega.cuidad}}</h6>
+    <p class="card-text">{{bodega.descripcion}}</p>
+    <a class="card-link" (click)="goToBodega()" style="cursor: pointer; color: blue;">Ver bodega</a>
+  </div>
+</div>

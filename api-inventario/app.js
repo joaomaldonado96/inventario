@@ -1,25 +1,27 @@
-'use strict'
+const express = require('express');
+const path = require('path')
+const cookieParser = require('cookie-parser')
+const logger = require('morgan')
+const routing = require('./routes')
 
-var express = require('express');
-var bodyParser = require('body-parser');
-
-var app = express();
-var api = require('./routes/rutas');
-
-
-app.use(bodyParser.urlencoded({extended:false}));
-app.use(bodyParser.json());
-
-app.use((req,res,next)=>{
-    res.header('Access-Control-Allow-Origin','*');
-    res.header('Access-Control-Allow-Headers','X-API-KEY, Origin, X-Requested-with, Content-Type, Accept, Access-Control-Request-Method');
-    res.header('Access-Control-Allow-Methods','GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow','GET, POST, OPTIONS, PUT, DELETE');
-    
-    next();
-});
-
-app.use('/api',api);
+const app = express();
 
 
-module.exports =app;
+app.use(logger('dev'))
+app.use(express.json({limit: '500mb'}))
+app.use(express.urlencoded({ limit: '500mb', extended: false }))
+app.use(cookieParser())
+app.use('/public', express.static(path.join(__dirname, 'public')))
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method')
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE')
+    next()
+})
+
+
+routing(app)
+
+module.exports = app
