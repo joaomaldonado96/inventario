@@ -14,7 +14,7 @@
     "cookie-parser": "^1.4.5",
     "express": "^4.16.2",
     "fluentreports": "^1.1.7",
-    "jwt-simple": "^0.5.1",
+    "jwt-simple": "^0.5.3",
     "moment": "^2.21.0",
     "mongodb": "^3.6.2",
     "morgan": "^1.9.0",
